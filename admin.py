@@ -9,7 +9,7 @@ import asyncio
 # --- НАСТРОЙКИ ---
 API_TOKEN = '8938811266:AAG9Is2ByWrivKIUY5Vvux2KfDOy-f9mNzQ'
 GEMINI_KEY = 'AIzaSyDcLFdfaXSdFjjkQhTC5vN5y1W9yJ4hmxk'
-GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={GEMINI_KEY}"
+GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_KEY}"
 ADMIN_ID = 5934814012 # Твой Telegram ID для доступа к админке
 
 bot = Bot(token=API_TOKEN)
