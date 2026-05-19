@@ -25,6 +25,7 @@ model = genai.GenerativeModel('genimi-pro')
 class AIGenerator(StatesGroup):
     waiting_for_workout_req = State()
     waiting_for_food_req = State()
+    waiting_for_routine_req = State
 
 # --- КЛАВИАТУРА ---
 main_kb = ReplyKeyboardMarkup(
@@ -94,23 +95,32 @@ async def generate_food(message: types.Message, state: FSMContext):
         await message.answer(f"Ошибка API: {e}", reply_markup=main_kb)
     finally:
         await state.clear()
-
-# --- 3. СТАТИЧНАЯ БАЗА (Режим и Эстетика) ---
+# --- 3. ГЕНЕРАЦИЯ: ЛЮКСМАКСИНГ И РЕЖИМ ---
 @dp.message(F.text == "🌙 Эстетика и Режим (База)")
-async def static_info(message: types.Message):
-    # Сюда можно зашить жесткие правила, которые не меняются
-    text = (
-        "**ОСНОВА ТРАНСФОРМАЦИИ:**\n\n"
-        "1️⃣ **Сон:** Отбой в 22:30. Мышцы растут только во сне.\n"
-        "2️⃣ **Осанка:** Каждое утро 3 подхода вакуума по 20 секунд, чтобы скрыть ребра.\n"
-        "3️⃣ **Вода:** 2 литра чистой воды в день.\n"
-        "4️⃣ **Дисциплина:** Тренировки не пропускаем, питание держим в профиците."
+async def ask_routine(message: types.Message, state: FSMContext):
+    await message.answer(
+        "Что прокачиваем сегодня? (Например: 'Напиши рутину для чистой кожи лица', 'Дай тренировку для ровной осанки', или 'Рассчитай идеальный режим сна, если мне нужно встать в 06:30')",
+        reply_markup=types.ReplyKeyboardRemove()
     )
-    await message.answer(text, parse_mode="Markdown")
+    await state.set_state(AIGenerator.waiting_for_routine_req)
 
-async def main():
-    logging.basicConfig(level=logging.INFO)
-    await dp.start_polling(bot)
-
-if __name__ == '__main__':
-    asyncio.run(main())
+@dp.message(AIGenerator.waiting_for_routine_req)
+async def generate_routine(message: types.Message, state: FSMContext):
+    await message.answer("⏳ Нейросеть анализирует протоколы люксмаксинга...")
+    
+    # Вшиваем жесткий контекст, чтобы ИИ давал советы конкретно для тебя
+    prompt = (
+        f"Ты эксперт по мужскому селф-импрувменту, биохакингу и люксмаксингу. "
+        f"Твой клиент: парень 14 лет, вес 52 кг, главная цель — мощная трансформация внешности (glow up) к 1 сентября. "
+        f"Его запрос: {message.text}. "
+        f"Дай четкие, практичные и научно обоснованные инструкции (без воды). Если вопрос про сон — распиши фазы и время отбоя. "
+        f"Если про лицо/осанку — дай конкретные упражнения (например, мьюинг, вакуум) или базовую рутину ухода (skincare)."
+    )
+    
+    try:
+        response = model.generate_content(prompt)
+        await message.answer(response.text, reply_markup=main_kb)
+    except Exception as e:
+        await message.answer(f"Ошибка API: {e}", reply_markup=main_kb)
+    finally:
+        await state.clear()
