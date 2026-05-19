@@ -19,7 +19,7 @@ dp = Dispatcher()
 # Инициализация Gemini ИИ
 genai.configure(api_key=GEMINI_API_KEY)
 # Используем актуальную модель
-model = genai.GenerativeModel('gemini-1.5-flash-latest')
+model = genai.GenerativeModel('genimi-pro')
 
 # --- МАШИНА СОСТОЯНИЙ ---
 class AIGenerator(StatesGroup):
