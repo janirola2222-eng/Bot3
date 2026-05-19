@@ -24,7 +24,8 @@ class AIGenerator(StatesGroup):
 async def ask_gemini(prompt_text):
     try:
         response = await gemini_client.aio.models.generate_content(
-            model='gemini-1.5-flash',
+          model='gemini-2.5-flash',
+
             contents=prompt_text,
         )
         return response.text
