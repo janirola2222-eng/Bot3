@@ -7,7 +7,7 @@ from aiogram.fsm.state import State, StatesGroup
 import asyncio
 
 # --- НАСТРОЙКИ И КЛЮЧИ ---
-API_TOKEN = '8938811266:AAG9Is2ByWrivKIUY5Vvux2KfDOy-f9mNzQ'
+API_TOKEN = '8938811266:AAEolDZlX7u6-DfvQulGZKnLhmvIkZtZs98'
 GEMINI_KEY = 'AIzaSyDcLFdfaXSdFjjkQhTC5vN5y1W9yJ4hmxk'
 ADMIN_ID = 5934814012  # Твой Telegram ID для админки
 
