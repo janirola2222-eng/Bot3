@@ -8,7 +8,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 
 # --- НАСТРОЙКИ ---
-TG_TOKEN = '8938811266:AAHURyOvSapf2TpKyBLAMHanWbiyqEzxIRc'
+TG_TOKEN = '8938811266:AAG9Is2ByWrivKIUY5Vvux2KfDOy-f9mNzQ'
 GEMINI_API_KEY = 'AIzaSyDcLFdfaXSdFjjkQhTC5vN5y1W9yJ4hmxk' # AIzaSy...
 YOUR_TELEGRAM_ID = 5934814012
 
